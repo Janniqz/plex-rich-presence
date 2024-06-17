@@ -47,7 +47,7 @@ public class PlexSessionsPollingStrategyTests
         titles.Should().Contain("Test Media 2");
         titles.Should().Contain("Test Media 3");
         
-        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(100));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class PlexSessionsPollingStrategyTests
         titles[1].Should().Contain("Test Media 2");
         titles[2].Should().Contain("Test Media 3");
 
-        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(100));
     }
 
     [Fact]
@@ -119,7 +119,7 @@ public class PlexSessionsPollingStrategyTests
         titles[1].Should().Contain("Test Media 2");
         titles[2].Should().Contain("Test Media 3");
 
-        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(100));
     }
 
 

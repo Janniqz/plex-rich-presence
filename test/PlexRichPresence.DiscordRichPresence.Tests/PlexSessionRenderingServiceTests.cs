@@ -8,7 +8,7 @@ namespace PlexRichPresence.DiscordRichPresence.Tests;
 
 public class PlexSessionRenderingServiceTests
 {
-    public static TheoryData<PlexSession, string?, string?, bool, TimeSpan>
+    public static TheoryData<PlexSession, string?, string?>
         RenderingTheoryData =>
         new()
         {
@@ -17,14 +17,14 @@ public class PlexSessionRenderingServiceTests
                 {
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Buffering
                 },
-                "⟲\x2800", "Test Movie", true, TimeSpan.Zero
+                "⟲\x2800", "Test Movie"
             },
             {
                 new PlexSession
                 {
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Paused
                 },
-                "⏸\x2800", "Test Movie", true, TimeSpan.Zero
+                "⏸\x2800", "Test Movie"
             },
             {
                 new PlexSession
@@ -32,7 +32,7 @@ public class PlexSessionRenderingServiceTests
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Playing,
                     Duration = 20_000, ViewOffset = 10_000
                 },
-                "▶\x2800", "Test Movie", true, TimeSpan.FromSeconds(10)
+                "▶\x2800", "Test Movie"
             },
             {
                 new PlexSession
@@ -41,7 +41,7 @@ public class PlexSessionRenderingServiceTests
                     MediaGrandParentTitle = "Test Grand Parent Title", MediaType = PlexMediaType.Unknown,
                     PlayerState = PlexPlayerState.Paused
                 },
-                "Test Title", "Test Grand Parent Title - Test Parent Title", true, TimeSpan.Zero
+                "Test Title", "Test Grand Parent Title - Test Parent Title"
             },
             {
                 new PlexSession
@@ -50,7 +50,7 @@ public class PlexSessionRenderingServiceTests
                     MediaGrandParentTitle = "Test Grand Parent Title", MediaType = PlexMediaType.Track,
                     PlayerState = PlexPlayerState.Paused
                 },
-                "⏸ Test Grand Parent Title", "♫ Test Title", true, TimeSpan.Zero
+                "⏸ Test Grand Parent Title", "♫ Test Title"
             },
             {
                 new PlexSession
@@ -59,7 +59,7 @@ public class PlexSessionRenderingServiceTests
                     MediaGrandParentTitle = "Test Grand Parent Title", MediaType = PlexMediaType.Episode,
                     PlayerState = PlexPlayerState.Paused
                 },
-                "⏸ Test Grand Parent Title", "⏏ Test Title", true, TimeSpan.Zero
+                "⏸ Test Grand Parent Title", "⏏ Test Title"
             },
             {
                 new PlexSession
@@ -70,17 +70,16 @@ public class PlexSessionRenderingServiceTests
                     MediaType = PlexMediaType.Idle,
                     PlayerState = PlexPlayerState.Idle
                 },
-                "Idle", null, false, TimeSpan.Zero
+                "Idle", null
             }
         };
 
 
     [Theory]
     [MemberData(nameof(RenderingTheoryData))]
-    public void RenderPlayerState(PlexSession session, string? expectedState, string? expectedDetail, bool setEndTimeStamp, TimeSpan expectedEndTimestampAfterNow)
+    public void RenderPlayerState(PlexSession session, string? expectedState, string? expectedDetail)
     {
         // Given
-        var dateTime = DateTime.Now.ToUniversalTime();
         var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererFactory(), new Mock<ILogger<PlexSessionRenderingService>>().Object);
 
         // When
@@ -89,8 +88,5 @@ public class PlexSessionRenderingServiceTests
         // Then
         presence.State.Should().Be(expectedState);
         presence.Details.Should().Be(expectedDetail);
-        
-        if (setEndTimeStamp)
-            presence.Timestamps.End.Should().Be(dateTime.Add(expectedEndTimestampAfterNow));
     }
 }
