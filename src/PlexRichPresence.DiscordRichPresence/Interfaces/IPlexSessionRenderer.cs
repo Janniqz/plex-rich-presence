@@ -1,7 +1,7 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
 
-namespace PlexRichPresence.DiscordRichPresence;
+namespace PlexRichPresence.DiscordRichPresence.Interfaces;
 
 public interface IPlexSessionRenderer
 {

@@ -48,8 +48,8 @@ public class App : Application
         .AddTransient<IApiService, ApiService>()
         .AddTransient<IPlexFactory, PlexFactory>()
         .AddTransient<IPlexRequestsHttpClient, PlexRequestsHttpClient>()
-        .AddSingleton<IStorageService>(
-            new StorageService(StorageFolder))
+        .AddSingleton<IStorageService>(new StorageService(StorageFolder))
+        .AddSingleton<IWebClientService, WebClientService>()
         .AddSingleton<LoginPageViewModel>()
         .AddSingleton<ServersPageViewModel>()
         .AddSingleton<PlexActivityPageViewModel>()
@@ -57,7 +57,7 @@ public class App : Application
         .AddSingleton<IPlexActivityService, PlexActivityService>()
         .AddSingleton<IDiscordService, DiscordService>()
         .AddSingleton<PlexSessionRenderingService>()
-        .AddSingleton<PlexSessionRendererFactory>()
+        .AddSingleton<PlexSessionRendererStore>()
         .AddSingleton<PlexSessionMapper>()
         .AddLogging(loggingBuilder => { loggingBuilder.AddSerilog(); });
 

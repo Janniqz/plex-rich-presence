@@ -1,5 +1,6 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
+using PlexRichPresence.DiscordRichPresence.Interfaces;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 
@@ -10,6 +11,10 @@ public class IdleSessionRenderer : IPlexSessionRenderer
         return new RichPresence
         {
             State = "Idle",
+            Assets = new Assets
+            {
+                LargeImageKey = "icon"
+            }
         };
     }
 }

@@ -17,6 +17,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\PlexRichPresence.DiscordRichPresence\PlexRichPresence.DiscordRichPresence.csproj" />
+      <ProjectReference Include="..\..\src\PlexRichPresence.UI.Avalonia\PlexRichPresence.UI.Avalonia.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Fakes\" />
     </ItemGroup>
 
 </Project>

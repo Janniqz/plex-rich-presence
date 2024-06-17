@@ -22,7 +22,7 @@ public class DiscordService : IDiscordService
 
     private DiscordRpcClient CreateRpcClient()
     {
-        var rpcClient = new DiscordRpcClient(applicationID: "698954724019273770");
+        var rpcClient = new DiscordRpcClient(applicationID: "1249435507260264468");
         rpcClient.OnError += (_, args) => _logger.LogError(args.Message);
         rpcClient.Initialize();
 
@@ -32,17 +32,11 @@ public class DiscordService : IDiscordService
     public void SetDiscordPresenceToPlexSession(PlexSession session)
     {
         if (session == _currentSession)
-        {
             return;
-        }
 
         _currentSession = session;
         var richPresence = _plexSessionRenderingService.RenderSession(session);
-        // richPresence.Assets = new Assets
-        // {
-        //     LargeImageKey = "icon",
-        //     SmallImageKey = "icon"
-        // };
+        
         _discordRpcClient ??= CreateRpcClient();
         _discordRpcClient.SetPresence(richPresence);
     }

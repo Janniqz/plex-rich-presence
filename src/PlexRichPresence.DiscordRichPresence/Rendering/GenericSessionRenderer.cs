@@ -1,5 +1,6 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
+using PlexRichPresence.DiscordRichPresence.Interfaces;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 

@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Rendering;
+using PlexRichPresence.Services;
+using PlexRichPresence.UI.Avalonia.Services;
 
 namespace PlexRichPresence.DiscordRichPresence.Tests;
 
@@ -80,7 +82,7 @@ public class PlexSessionRenderingServiceTests
     public void RenderPlayerState(PlexSession session, string? expectedState, string? expectedDetail)
     {
         // Given
-        var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererFactory(), new Mock<ILogger<PlexSessionRenderingService>>().Object);
+        var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererStore(new Mock<WebClientService>().Object), new Mock<ILogger<PlexSessionRenderingService>>().Object);
 
         // When
         var presence = plexSessionRenderingService.RenderSession(session);
