@@ -14,23 +14,18 @@ namespace PlexRichPresence.UI.Avalonia.Services;
 public class StorageService : IStorageService
 {
     private const string StoredDataJson = "storedData.json";
-    private readonly string _storedDataFolder;
     private readonly string _storedDataPath;
-    private bool _directoryCreated = false;
 
     public StorageService(string storedDataFolder)
     {
         Registrations.Start("PlexRichPresence");
-        _storedDataFolder = storedDataFolder;
-        _storedDataPath = _storedDataFolder + $"/{StoredDataJson}";
+        _storedDataPath = storedDataFolder + $"/{StoredDataJson}";
     }
 
     public async Task Init()
     {
         if (!File.Exists(_storedDataPath))
-        {
             return;
-        }
 
         var storedData = await ReadStoredData();
 

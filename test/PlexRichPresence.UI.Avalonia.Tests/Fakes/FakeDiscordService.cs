@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using PlexRichPresence.Core;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels.Test.Fakes;
+namespace PlexRichPresence.UI.Avalonia.Tests.Fakes;
 
 public class FakeDiscordService : IDiscordService
 {

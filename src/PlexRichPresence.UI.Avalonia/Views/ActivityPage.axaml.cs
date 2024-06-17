@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using PlexRichPresence.ViewModels;
+using PlexActivityPageViewModel = PlexRichPresence.UI.Avalonia.ViewModels.PlexActivityPageViewModel;
 
 namespace PlexRichPresence.UI.Avalonia.Views;
 

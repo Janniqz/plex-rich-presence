@@ -1,12 +1,16 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Account;
 using Plex.ServerApi.PlexModels.OAuth;
+using PlexRichPresence.UI.Avalonia.Tests.Fakes;
+using PlexRichPresence.UI.Avalonia.ViewModels;
 using PlexRichPresence.ViewModels.Services;
-using PlexRichPresence.ViewModels.Test.Fakes;
+using Xunit;
 
-namespace PlexRichPresence.ViewModels.Test.ViewModels;
+namespace PlexRichPresence.UI.Avalonia.Tests.ViewModels;
 
 public class LoginPageViewModelTests
 {
@@ -23,7 +27,7 @@ public class LoginPageViewModelTests
         plexAccountClientMock.Setup(mock => mock.GetPlexAccountAsync(fakeLogin, fakePassword)).Returns(() => Task.FromResult(new PlexAccount { AuthToken = fakeUserToken, Username = fakePlexUserName }));
         var navigationService = new FakeNavigationService();
         var storageService = new FakeStorageService();
-        var browserService = new FakeBrowserService();
+        var browserService = new FakeWebClientService();
 
         var viewModel = new LoginPageViewModel(plexAccountClientMock.Object, navigationService, storageService, browserService);
 
@@ -70,7 +74,7 @@ public class LoginPageViewModelTests
 
         var navigationService = new FakeNavigationService();
         var storageService = new FakeStorageService();
-        var browserService = new FakeBrowserService();
+        var browserService = new FakeWebClientService();
         var now = DateTime.Now;
 
         var viewModel = new LoginPageViewModel(
@@ -102,7 +106,7 @@ public class LoginPageViewModelTests
     public void CanLoginWithCredentials(string login, string password, bool expected)
     {
         // Given
-        var viewModel = new LoginPageViewModel(new Mock<IPlexAccountClient>().Object, new Mock<INavigationService>().Object, new Mock<IStorageService>().Object, new Mock<IBrowserService>().Object);
+        var viewModel = new LoginPageViewModel(new Mock<IPlexAccountClient>().Object, new Mock<INavigationService>().Object, new Mock<IStorageService>().Object, new Mock<IWebClientService>().Object);
 
         // When
         viewModel.Login = login;

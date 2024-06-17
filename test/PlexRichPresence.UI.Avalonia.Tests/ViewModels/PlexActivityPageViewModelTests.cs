@@ -1,11 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PlexRichPresence.Core;
+using PlexRichPresence.UI.Avalonia.Tests.Fakes;
+using PlexRichPresence.UI.Avalonia.ViewModels;
 using PlexRichPresence.ViewModels.Services;
-using PlexRichPresence.ViewModels.Test.Fakes;
+using Xunit;
 
-namespace PlexRichPresence.ViewModels.Test.ViewModels;
+namespace PlexRichPresence.UI.Avalonia.Tests.ViewModels;
 
 public class PlexActivityPageViewModelTests
 {

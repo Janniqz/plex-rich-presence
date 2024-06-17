@@ -26,6 +26,9 @@ using PlexRichPresence.UI.Avalonia.Views;
 using PlexRichPresence.ViewModels;
 using PlexRichPresence.ViewModels.Services;
 using Serilog;
+using LoginPageViewModel = PlexRichPresence.UI.Avalonia.ViewModels.LoginPageViewModel;
+using PlexActivityPageViewModel = PlexRichPresence.UI.Avalonia.ViewModels.PlexActivityPageViewModel;
+using ServersPageViewModel = PlexRichPresence.UI.Avalonia.ViewModels.ServersPageViewModel;
 
 namespace PlexRichPresence.UI.Avalonia;
 

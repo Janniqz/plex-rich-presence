@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\PlexRichPresence.ViewModels\PlexRichPresence.ViewModels.csproj" />
+        <ProjectReference Include="..\PlexRichPresence.Services\PlexRichPresence.Services.csproj" />
     </ItemGroup>
 
 </Project>

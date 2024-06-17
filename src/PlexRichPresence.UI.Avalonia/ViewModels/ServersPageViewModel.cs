@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -6,12 +8,11 @@ using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Account;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels;
+namespace PlexRichPresence.UI.Avalonia.ViewModels;
 
-[INotifyPropertyChanged]
-public partial class ServersPageViewModel
+public partial class ServersPageViewModel : ObservableObject
 {
-    public ObservableCollection<AccountServer> Servers { get; set; } = new();
+    public ObservableCollection<AccountServer> Servers { get; set; } = [];
     private readonly IPlexAccountClient _plexAccountClient;
     private readonly IStorageService _storageService;
     private readonly INavigationService _navigationService;

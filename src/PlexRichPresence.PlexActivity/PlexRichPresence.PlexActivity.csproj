@@ -14,7 +14,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\PlexRichPresence.Core\PlexRichPresence.Core.csproj" />
-        <ProjectReference Include="..\PlexRichPresence.ViewModels\PlexRichPresence.ViewModels.csproj" />
+        <ProjectReference Include="..\PlexRichPresence.Services\PlexRichPresence.Services.csproj" />
     </ItemGroup>
 
 </Project>

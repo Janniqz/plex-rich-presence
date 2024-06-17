@@ -1,6 +1,7 @@
+using System.Threading.Tasks;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels.Test.Fakes;
+namespace PlexRichPresence.UI.Avalonia.Tests.Fakes;
 
 public class FakeNavigationService : INavigationService
 {

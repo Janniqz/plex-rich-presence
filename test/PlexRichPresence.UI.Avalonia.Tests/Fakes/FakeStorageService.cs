@@ -1,6 +1,8 @@
-﻿using PlexRichPresence.ViewModels.Services;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels.Test.Fakes;
+namespace PlexRichPresence.UI.Avalonia.Tests.Fakes;
 
 public class FakeStorageService : IStorageService
 {

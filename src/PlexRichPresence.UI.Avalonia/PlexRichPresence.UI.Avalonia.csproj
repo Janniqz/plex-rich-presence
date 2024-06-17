@@ -46,7 +46,7 @@
     <ItemGroup>
         <ProjectReference Include="..\PlexRichPresence.DiscordRichPresence\PlexRichPresence.DiscordRichPresence.csproj" />
         <ProjectReference Include="..\PlexRichPresence.PlexActivity\PlexRichPresence.PlexActivity.csproj" />
-        <ProjectReference Include="..\PlexRichPresence.ViewModels\PlexRichPresence.ViewModels.csproj" />
+        <ProjectReference Include="..\PlexRichPresence.Services\PlexRichPresence.Services.csproj" />
     </ItemGroup>
 
 </Project>

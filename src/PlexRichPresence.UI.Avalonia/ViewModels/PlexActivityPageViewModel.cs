@@ -1,12 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels;
+namespace PlexRichPresence.UI.Avalonia.ViewModels;
 
-[INotifyPropertyChanged]
-public partial class PlexActivityPageViewModel
+public partial class PlexActivityPageViewModel : ObservableObject
 {
     private readonly IPlexActivityService _plexActivityService;
     private readonly IStorageService _storageService;

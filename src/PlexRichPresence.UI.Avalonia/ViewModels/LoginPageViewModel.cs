@@ -1,25 +1,26 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.OAuth;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels;
+namespace PlexRichPresence.UI.Avalonia.ViewModels;
 
-[INotifyPropertyChanged]
-public partial class LoginPageViewModel
+public partial class LoginPageViewModel : ObservableObject
 {
     private readonly IPlexAccountClient _plexClient;
     private readonly INavigationService _navigationService;
     private readonly IStorageService _storageService;
-    private readonly IBrowserService _browserService;
+    private readonly IWebClientService _webClientService;
 
-    public LoginPageViewModel(IPlexAccountClient plexClient, INavigationService navigationService, IStorageService storageService, IBrowserService browserService)
+    public LoginPageViewModel(IPlexAccountClient plexClient, INavigationService navigationService, IStorageService storageService, IWebClientService webClientService)
     {
         _plexClient = plexClient;
         _navigationService = navigationService;
         _storageService = storageService;
-        _browserService = browserService;
+        _webClientService = webClientService;
     }
 
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(LoginWithCredentialsCommand))]
@@ -42,12 +43,12 @@ public partial class LoginPageViewModel
         await _navigationService.NavigateToAsync("servers");
     }
 
-    public bool CanLoginWithCredentials => !(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(_password));
+    public bool CanLoginWithCredentials => !(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password));
 
     [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task LoginWithBrowser()
     {
-        var oauthUrl = await OpenBrowserWitnPin();
+        var oauthUrl = await OpenBrowserWithPin();
         var plexPin = await WaitForBrowserLogin(oauthUrl);
 
         var account = await _plexClient.GetPlexAccountAsync(plexPin.AuthToken);
@@ -70,10 +71,10 @@ public partial class LoginPageViewModel
         return plexPin;
     }
 
-    private async Task<OAuthPin> OpenBrowserWitnPin()
+    private async Task<OAuthPin> OpenBrowserWithPin()
     {
         var oauthUrl = await _plexClient.CreateOAuthPinAsync("");
-        await _browserService.OpenAsync(oauthUrl.Url);
+        await _webClientService.OpenAsync(oauthUrl.Url);
         return oauthUrl;
     }
 }

@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using PlexRichPresence.Core;
 using PlexRichPresence.ViewModels.Services;
 
-namespace PlexRichPresence.ViewModels.Test.Fakes;
+namespace PlexRichPresence.UI.Avalonia.Tests.Fakes;
 
 public class FakePlexActivityService : IPlexActivityService
 {
@@ -28,8 +29,7 @@ public class FakePlexActivityService : IPlexActivityService
         CurrentServerPort = serverPort;
         CurrentUserToken = userToken;
         IsConnected = true;
-
-
+        
         for (var index = 1; index <= 3; ++index)
             yield return _isIdle ? new PlexSession() : new PlexSession { MediaTitle = $"Test Media Title {index}" };
     }
