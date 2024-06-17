@@ -90,6 +90,7 @@ public class PlexSessionWebSocketStrategyTests
         async Task<WebSocket> ClientFactory(Uri url, CancellationToken cancellationToken) => await wsClient.ConnectAsync(url, cancellationToken);
         var client = new WebsocketClient(
             serverUrl,
+            null,
             (Func<Uri, CancellationToken, Task<WebSocket>>) ClientFactory
         );
 
