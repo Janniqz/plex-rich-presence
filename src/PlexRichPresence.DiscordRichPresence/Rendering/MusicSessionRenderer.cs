@@ -15,10 +15,6 @@ public class MusicSessionRenderer : GenericSessionRenderer
             Timestamps = new Timestamps
             {
                 End = endTimeStamp
-            },
-            Assets = new Assets
-            {
-                LargeImageKey = session.Thumbnail
             }
         };
     }

@@ -38,10 +38,11 @@ public class DiscordService : IDiscordService
 
         _currentSession = session;
         var richPresence = _plexSessionRenderingService.RenderSession(session);
-        richPresence.Assets = new Assets
-        {
-            LargeImageKey = "icon"
-        };
+        // richPresence.Assets = new Assets
+        // {
+        //     LargeImageKey = "icon",
+        //     SmallImageKey = "icon"
+        // };
         _discordRpcClient ??= CreateRpcClient();
         _discordRpcClient.SetPresence(richPresence);
     }

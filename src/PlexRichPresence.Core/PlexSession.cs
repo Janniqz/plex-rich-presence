@@ -10,7 +10,7 @@ public record PlexSession(
     PlexMediaType MediaType,
     long Duration,
     long ViewOffset,
-    string? Thumbnail
+    string? LocalThumbnail
 )
 {
     public PlexSession() : this(
@@ -24,8 +24,5 @@ public record PlexSession(
         default,
         default,
         string.Empty
-    )
-    {
-    }
-
+    ) { }
 }

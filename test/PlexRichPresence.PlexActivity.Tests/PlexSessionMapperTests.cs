@@ -19,7 +19,7 @@ public class PlexSessionMapperTests
         var session = mapper.Map(new SessionMetadata { Thumb = "/library/metadata/40712/thumb/169111949" }, plexServerHost, "token");
 
         // Then
-        session.Thumbnail.Should().Be("http://1.1.1.1:50/library/metadata/40712/thumb/169111949?X-Plex-Token=token");
+        session.LocalThumbnail.Should().Be("http://1.1.1.1:50/library/metadata/40712/thumb/169111949?X-Plex-Token=token");
     }
 
     [Fact]
@@ -30,9 +30,9 @@ public class PlexSessionMapperTests
         var plexServerHost = new Uri("http://1.1.1.1:50").ToString();
 
         // When
-        var session = mapper.Map(new Metadata() { Thumb = "/library/metadata/40712/thumb/169111949" }, "", 1, plexServerHost, "token");
+        var session = mapper.Map(new Metadata { Thumb = "/library/metadata/40712/thumb/169111949" }, "", 1, plexServerHost, "token");
 
         // Then
-        session.Thumbnail.Should().Be("http://1.1.1.1:50/library/metadata/40712/thumb/169111949?X-Plex-Token=token");
+        session.LocalThumbnail.Should().Be("http://1.1.1.1:50/library/metadata/40712/thumb/169111949?X-Plex-Token=token");
     }
 }
