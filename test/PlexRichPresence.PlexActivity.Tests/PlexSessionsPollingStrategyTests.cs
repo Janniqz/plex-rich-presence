@@ -8,7 +8,6 @@ using Moq;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Server.Sessions;
 using PlexRichPresence.Core;
-using PlexRichPresence.Tests.Common;
 using Xunit;
 
 namespace PlexRichPresence.PlexActivity.Tests;
@@ -26,10 +25,9 @@ public class PlexSessionsPollingStrategyTests
         const string fakeUserName = "fake user name";
         
         var serverClientMock = SetupPlexClientServerClientMock(fakeToken, fakeServerIp, fakeServerPort, fakeUserName);
-        var clock = new FakeClock(DateTime.Now);
         var now = DateTime.Now;
 
-        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, clock, new PlexSessionMapper());
+        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, new PlexSessionMapper());
         var result = new List<PlexSession>();
 
         // When
@@ -49,8 +47,7 @@ public class PlexSessionsPollingStrategyTests
         titles.Should().Contain("Test Media 2");
         titles.Should().Contain("Test Media 3");
         
-
-        clock.DateTimeAfterDelay.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
     }
 
     [Fact]
@@ -64,10 +61,9 @@ public class PlexSessionsPollingStrategyTests
         const string fakeUserName = "fake user name";
         
         var serverClientMock = SetupPlexClientServerClientMockNoAlwaysSession(fakeToken, fakeServerIp, fakeServerPort, fakeUserName);
-        var clock = new FakeClock(DateTime.Now);
         var now = DateTime.Now;
         
-        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, clock, new PlexSessionMapper());
+        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, new PlexSessionMapper());
         var result = new List<PlexSession>();
 
         // When
@@ -87,7 +83,7 @@ public class PlexSessionsPollingStrategyTests
         titles[1].Should().Contain("Test Media 2");
         titles[2].Should().Contain("Test Media 3");
 
-        clock.DateTimeAfterDelay.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
     }
 
     [Fact]
@@ -100,10 +96,9 @@ public class PlexSessionsPollingStrategyTests
         const int fakeServerPort = 32400;
         const string fakeUserName = "fake user name";
         var serverClientMock = SetupPlexClientServerClientNoAlwaysSessionForUserMock(fakeToken, fakeServerIp, fakeServerPort, fakeUserName);
-
-        var clock = new FakeClock(DateTime.Now);
+        
         var now = DateTime.Now;
-        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, clock, new PlexSessionMapper());
+        var strategy = new PlexSessionsPollingStrategy(new Mock<ILogger<PlexSessionsPollingStrategy>>().Object, serverClientMock.Object, new PlexSessionMapper());
 
         var result = new List<PlexSession>();
         
@@ -124,7 +119,7 @@ public class PlexSessionsPollingStrategyTests
         titles[1].Should().Contain("Test Media 2");
         titles[2].Should().Contain("Test Media 3");
 
-        clock.DateTimeAfterDelay.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromMilliseconds(10));
     }
 
 

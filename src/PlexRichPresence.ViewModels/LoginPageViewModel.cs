@@ -13,16 +13,13 @@ public partial class LoginPageViewModel
     private readonly INavigationService _navigationService;
     private readonly IStorageService _storageService;
     private readonly IBrowserService _browserService;
-    private readonly IClock _clock;
 
-    public LoginPageViewModel(IPlexAccountClient plexClient, INavigationService navigationService,
-        IStorageService storageService, IBrowserService browserService, IClock clock)
+    public LoginPageViewModel(IPlexAccountClient plexClient, INavigationService navigationService, IStorageService storageService, IBrowserService browserService)
     {
         _plexClient = plexClient;
         _navigationService = navigationService;
         _storageService = storageService;
         _browserService = browserService;
-        _clock = clock;
     }
 
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(LoginWithCredentialsCommand))]
@@ -65,7 +62,7 @@ public partial class LoginPageViewModel
             plexPin = await _plexClient.GetAuthTokenFromOAuthPinAsync(oauthUrl.Id.ToString());
             if (string.IsNullOrEmpty(plexPin.AuthToken))
             {
-                await _clock.Delay(TimeSpan.FromSeconds(2));
+                await Task.Delay(TimeSpan.FromSeconds(2));
             }
             else break;
         }

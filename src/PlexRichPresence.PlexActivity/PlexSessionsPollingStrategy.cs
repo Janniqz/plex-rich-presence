@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Plex.ServerApi.Clients.Interfaces;
 using PlexRichPresence.Core;
-using PlexRichPresence.ViewModels.Services;
 
 namespace PlexRichPresence.PlexActivity;
 
@@ -9,17 +8,14 @@ public class PlexSessionsPollingStrategy : IPlexSessionStrategy
 {
     private bool _isDisconnected;
 
-    private readonly IClock _clock;
     private readonly ILogger<PlexSessionsPollingStrategy> _logger;
     private readonly IPlexServerClient _plexServerClient;
     private readonly PlexSessionMapper _plexSessionMapper;
 
-    public PlexSessionsPollingStrategy(ILogger<PlexSessionsPollingStrategy> logger, IPlexServerClient plexServerClient,
-        IClock clock, PlexSessionMapper plexSessionMapper)
+    public PlexSessionsPollingStrategy(ILogger<PlexSessionsPollingStrategy> logger, IPlexServerClient plexServerClient, PlexSessionMapper plexSessionMapper)
     {
         _logger = logger;
         _plexServerClient = plexServerClient;
-        _clock = clock;
         _plexSessionMapper = plexSessionMapper;
     }
     
@@ -31,7 +27,7 @@ public class PlexSessionsPollingStrategy : IPlexSessionStrategy
             var plexServerHost = new Uri($"http://{serverIp}:{serverPort}").ToString();
             var sessions = await _plexServerClient.GetSessionsAsync(userToken, plexServerHost);
             
-            await _clock.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromSeconds(2));
 
             if (sessions.Metadata is null)
             {

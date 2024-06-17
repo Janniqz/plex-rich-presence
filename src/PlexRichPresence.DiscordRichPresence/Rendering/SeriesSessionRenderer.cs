@@ -1,14 +1,13 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
-using PlexRichPresence.ViewModels.Services;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 
-public class SerieSessionRenderer : GenericSessionRenderer
+public class SeriesSessionRenderer : GenericSessionRenderer
 {
     public override RichPresence RenderSession(PlexSession session)
     {
-        (var playerState, var endTimeStamp) = RenderPlayerState(session);
+        var (playerState, endTimeStamp) = RenderPlayerState(session);
         return new RichPresence
         {
             Details = $"⏏ {session.MediaTitle}",
@@ -18,9 +17,5 @@ public class SerieSessionRenderer : GenericSessionRenderer
                 End = endTimeStamp
             }
         };
-    }
-
-    public SerieSessionRenderer(IClock clock) : base(clock)
-    {
     }
 }

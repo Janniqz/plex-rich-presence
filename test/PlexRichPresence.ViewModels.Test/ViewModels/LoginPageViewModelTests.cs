@@ -3,7 +3,6 @@ using Moq;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Account;
 using Plex.ServerApi.PlexModels.OAuth;
-using PlexRichPresence.Tests.Common;
 using PlexRichPresence.ViewModels.Services;
 using PlexRichPresence.ViewModels.Test.Fakes;
 
@@ -26,7 +25,7 @@ public class LoginPageViewModelTests
         var storageService = new FakeStorageService();
         var browserService = new FakeBrowserService();
 
-        var viewModel = new LoginPageViewModel(plexAccountClientMock.Object, navigationService, storageService, browserService, new Mock<IClock>().Object);
+        var viewModel = new LoginPageViewModel(plexAccountClientMock.Object, navigationService, storageService, browserService);
 
         // When
         viewModel.Login = fakeLogin;
@@ -73,14 +72,12 @@ public class LoginPageViewModelTests
         var storageService = new FakeStorageService();
         var browserService = new FakeBrowserService();
         var now = DateTime.Now;
-        var clock = new FakeClock(now);
 
         var viewModel = new LoginPageViewModel(
             plexAccountClientMock.Object,
             navigationService,
             storageService,
-            browserService,
-            clock
+            browserService
         );
 
         // When
@@ -91,9 +88,7 @@ public class LoginPageViewModelTests
         (await storageService.GetAsync("plex_token")).Should().Be(fakeUserToken);
         (await storageService.GetAsync("plexUserName")).Should().Be(fakePlexUserName);
         browserService.OpenedUrls.Should().Contain(fakeOauthUrl);
-        clock.DateTimeAfterDelay
-            .Should()
-            .BeCloseTo(now.Add(TimeSpan.FromSeconds(6)), TimeSpan.FromSeconds(1));
+        DateTime.Now.Should().BeCloseTo(now.AddSeconds(6), TimeSpan.FromSeconds(1));
     }
 
     [Theory]
@@ -107,7 +102,7 @@ public class LoginPageViewModelTests
     public void CanLoginWithCredentials(string login, string password, bool expected)
     {
         // Given
-        var viewModel = new LoginPageViewModel(new Mock<IPlexAccountClient>().Object, new Mock<INavigationService>().Object, new Mock<IStorageService>().Object, new Mock<IBrowserService>().Object, new Mock<IClock>().Object);
+        var viewModel = new LoginPageViewModel(new Mock<IPlexAccountClient>().Object, new Mock<INavigationService>().Object, new Mock<IStorageService>().Object, new Mock<IBrowserService>().Object);
 
         // When
         viewModel.Login = login;

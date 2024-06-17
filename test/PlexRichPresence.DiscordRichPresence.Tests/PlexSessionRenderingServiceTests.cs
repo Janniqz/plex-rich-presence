@@ -81,10 +81,7 @@ public class PlexSessionRenderingServiceTests
     {
         // Given
         var dateTime = DateTime.Now.ToUniversalTime();
-        var mockClock = SharedSetup.BuildMockClock(dateTime);
-        var plexSessionRenderingService =
-            new PlexSessionRenderingService(new PlexSessionRendererFactory(mockClock.Object),
-                new Mock<ILogger<PlexSessionRenderingService>>().Object);
+        var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererFactory(), new Mock<ILogger<PlexSessionRenderingService>>().Object);
 
         // When
         var presence = plexSessionRenderingService.RenderSession(session);

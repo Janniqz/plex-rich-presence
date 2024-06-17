@@ -52,10 +52,8 @@ public class App : Application
         .AddSingleton<ServersPageViewModel>()
         .AddSingleton<PlexActivityPageViewModel>()
         .AddSingleton<LoginPageViewModel>()
-        .AddSingleton<IBrowserService, BrowserService>()
         .AddSingleton<IPlexActivityService, PlexActivityService>()
         .AddSingleton<IDiscordService, DiscordService>()
-        .AddSingleton<IClock, Clock>()
         .AddSingleton<PlexSessionRenderingService>()
         .AddSingleton<PlexSessionRendererFactory>()
         .AddSingleton<PlexSessionMapper>()
@@ -76,14 +74,12 @@ public class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             ConfigureSerilog();
-
-
             ConfigureTheme();
+            
             desktop.MainWindow = new MainWindow();
             var navigationFrame = desktop.MainWindow.FindControl<Frame>("navigationFrame");
             var navigationService = new NavigationService(navigationFrame);
             ConfigureNavigation(navigationService);
-
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -126,9 +122,8 @@ public class App : Application
 
     private void MinimizeIfNeeded()
     {
-        string[] commandLineArgs = Environment.GetCommandLineArgs();
-        if (commandLineArgs.Contains("--minimized") &&
-            ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        var commandLineArgs = Environment.GetCommandLineArgs();
+        if (commandLineArgs.Contains("--minimized") && ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow.Hide();
         }
