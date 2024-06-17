@@ -7,7 +7,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Akavache;
 using Newtonsoft.Json;
-using PlexRichPresence.ViewModels.Services;
+using PlexRichPresence.Services;
 
 namespace PlexRichPresence.UI.Avalonia.Services;
 

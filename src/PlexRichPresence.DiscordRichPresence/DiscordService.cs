@@ -2,7 +2,7 @@ using DiscordRPC;
 using Microsoft.Extensions.Logging;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Rendering;
-using PlexRichPresence.ViewModels.Services;
+using PlexRichPresence.Services;
 
 namespace PlexRichPresence.DiscordRichPresence;
 

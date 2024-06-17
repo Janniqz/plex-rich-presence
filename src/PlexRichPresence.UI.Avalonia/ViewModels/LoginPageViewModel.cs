@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.OAuth;
-using PlexRichPresence.ViewModels.Services;
+using PlexRichPresence.Services;
 
 namespace PlexRichPresence.UI.Avalonia.ViewModels;
 

@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Account;
-using PlexRichPresence.ViewModels.Services;
+using PlexRichPresence.Services;
 
 namespace PlexRichPresence.UI.Avalonia.ViewModels;
 

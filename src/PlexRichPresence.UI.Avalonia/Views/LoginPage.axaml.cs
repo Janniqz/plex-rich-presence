@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using PlexRichPresence.ViewModels;
 using LoginPageViewModel = PlexRichPresence.UI.Avalonia.ViewModels.LoginPageViewModel;
 
 namespace PlexRichPresence.UI.Avalonia.Views;

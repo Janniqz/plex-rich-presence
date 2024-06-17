@@ -6,9 +6,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PlexRichPresence.Core;
+using PlexRichPresence.Services;
 using PlexRichPresence.UI.Avalonia.Tests.Fakes;
 using PlexRichPresence.UI.Avalonia.ViewModels;
-using PlexRichPresence.ViewModels.Services;
 using Xunit;
 
 namespace PlexRichPresence.UI.Avalonia.Tests.ViewModels;

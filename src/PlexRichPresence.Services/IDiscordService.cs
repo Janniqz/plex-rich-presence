@@ -1,6 +1,6 @@
 using PlexRichPresence.Core;
 
-namespace PlexRichPresence.ViewModels.Services;
+namespace PlexRichPresence.Services;
 
 public interface IDiscordService
 {

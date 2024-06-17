@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Plex.ServerApi.Clients.Interfaces;
 using Plex.ServerApi.PlexModels.Account;
+using PlexRichPresence.Services;
 using PlexRichPresence.UI.Avalonia.Tests.Fakes;
 using PlexRichPresence.UI.Avalonia.ViewModels;
-using PlexRichPresence.ViewModels.Services;
 using Xunit;
 
 namespace PlexRichPresence.UI.Avalonia.Tests.ViewModels;
