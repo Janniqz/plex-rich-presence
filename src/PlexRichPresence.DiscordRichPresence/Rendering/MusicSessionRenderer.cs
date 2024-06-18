@@ -14,7 +14,8 @@ public class MusicSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-        return new RichPresence
+
+        var richPresence = new RichPresence
         {
             Details = $"♫ {session.MediaTitle}",
             State = $"{playerState} {session.MediaGrandParentTitle}",
@@ -27,5 +28,20 @@ public class MusicSessionRenderer : GenericSessionRenderer
                 LargeImageKey = thumbnail ?? "icon"
             }
         };
+
+        if (!session.MediaParentGUID.StartsWith("plex://")) 
+            return richPresence;
+        
+        var albumGUID = session.MediaParentGUID.Split('/').LastOrDefault();
+        richPresence.Buttons =
+        [
+            new Button
+            {
+                Label = "Album Info",
+                Url = $"https://listen.plex.tv/album/{albumGUID}"
+            }
+        ];
+
+        return richPresence;
     }
 }

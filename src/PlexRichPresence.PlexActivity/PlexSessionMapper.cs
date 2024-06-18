@@ -9,9 +9,8 @@ public class PlexSessionMapper
     public PlexSession Map(SessionMetadata metadata, string plexServerHost, string plexToken) =>
         new(
             metadata.Title,
-            (uint)metadata.Index,
             metadata.ParentTitle,
-            (uint)metadata.ParentIndex,
+            metadata.ParentGuid,
             metadata.GrandparentTitle,
             GetPlayerState(metadata.Player?.State ?? "buffering"),
             GetMediaType(metadata.Type),
@@ -23,9 +22,8 @@ public class PlexSessionMapper
     public PlexSession Map(Metadata metadata, string state, long viewOffset, string plexServerHost, string plexToken) =>
         new(
             metadata.Title,
-            Convert.ToUInt32(metadata.Index),
             metadata.ParentTitle,
-            Convert.ToUInt32(metadata.ParentIndex),
+            metadata.ParentGuid,
             metadata.GrandparentTitle,
             GetPlayerState(state),
             GetMediaType(metadata.Type),

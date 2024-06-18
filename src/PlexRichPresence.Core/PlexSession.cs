@@ -2,9 +2,8 @@ namespace PlexRichPresence.Core;
 
 public record PlexSession(
     string MediaTitle,
-    uint MediaIndex,
     string MediaParentTitle,
-    uint MediaParentIndex,
+    string MediaParentGUID,
     string MediaGrandParentTitle,
     PlexPlayerState PlayerState,
     PlexMediaType MediaType,
@@ -15,9 +14,8 @@ public record PlexSession(
 {
     public PlexSession() : this(
         "Idle",
-        default,
         string.Empty,
-        default,
+        string.Empty,
         string.Empty,
         PlexPlayerState.Idle,
         PlexMediaType.Idle,
