@@ -1,6 +1,6 @@
 # Plex Rich Presence
 
-Plex Rich Presence is a multiplatform .NET 6 GUI App that allows you to display your current PLEX session in your Discord Rich presence status.
+Plex Rich Presence is a multiplatform .NET 8 GUI App that allows you to display your current PLEX session in your Discord Rich presence status.
 
 <img src="https://github.com/Janniqz/plex-rich-presence/blob/master/src/PlexRichPresence.UI.Avalonia/Assets/plex-rich-presence.png?raw=true" width="250" height="250">
 
@@ -25,7 +25,7 @@ Releases for windows and linux can be found [here](https://github.com/Janniqz/pl
 
 ## Build & Run form sources
 
-Requires .NET 6+ SDK
+Requires .NET 8+ SDK
 
 ```
 cd src/PlexRichPresence.UI.Avalonia
