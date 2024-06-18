@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Reflection;
+using System.Text;
 using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz;
 using MetaBrainz.MusicBrainz.CoverArt;
@@ -15,6 +16,8 @@ public class MusicThumbnailService : ThumbnailServiceBase
     private readonly Query _musicBrainzClient;
     private readonly CoverArt _coverArtClient;
     
+    private readonly char[] LUCENE_ESCAPE_CHARACTERS = ['+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '\"', '~', '*', '?', ':', '\\'];
+    
     public MusicThumbnailService()
     {
         var version = new Version(Assembly.GetEntryAssembly()!.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version).ToString(3);
@@ -27,11 +30,14 @@ public class MusicThumbnailService : ThumbnailServiceBase
         _currentAlbum = session.MediaParentTitle;
         _currentArtist = session.MediaGrandParentTitle;
         
-        var releaseGroups = _musicBrainzClient.FindReleaseGroupsAsync($"release:{_currentAlbum} AND artist:{_currentArtist}").Result;
+        var query = $"release:{EscapeLuceneQuery(_currentAlbum)} AND artist:{EscapeLuceneQuery(_currentArtist)}";
+        var releaseGroups = _musicBrainzClient.FindReleaseGroupsAsync(query).Result;
         foreach (var releaseGroup in releaseGroups.Results)
         {
             if (releaseGroup.Item.Releases == null)
                 continue;
+            
+            // TODO Add minimum Release Group Score
             
             foreach (var release in releaseGroup.Item.Releases)
             {
@@ -59,4 +65,16 @@ public class MusicThumbnailService : ThumbnailServiceBase
     }
 
     protected override bool NeedsUpdate(PlexSession session) => session.MediaParentTitle != _currentAlbum || session.MediaGrandParentTitle != _currentArtist;
+    
+    private string EscapeLuceneQuery(string query)
+    {
+        var sb = new StringBuilder(query.Length);
+        foreach (var c in query)
+        {
+            if (LUCENE_ESCAPE_CHARACTERS.Contains(c))
+                sb.Append('\\');
+            sb.Append(c);
+        }
+        return sb.ToString();
+    }
 }
