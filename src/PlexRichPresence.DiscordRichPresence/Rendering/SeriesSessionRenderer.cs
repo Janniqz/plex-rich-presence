@@ -25,7 +25,7 @@ public class SeriesSessionRenderer : GenericSessionRenderer
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
-                SmallImageKey = thumbnail != null ? "icon" : null
+                SmallImageKey = thumbnail != null ? "icon-round" : null
             }
         };
     }

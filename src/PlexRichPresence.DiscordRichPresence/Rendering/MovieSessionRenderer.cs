@@ -24,7 +24,8 @@ public class MovieSessionRenderer : GenericSessionRenderer
             },
             Assets = new Assets
             {
-                LargeImageKey = thumbnail ?? "icon"
+                LargeImageKey = thumbnail ?? "icon",
+                SmallImageKey = thumbnail != null ? "icon-round" : null,
             }
         };
     }
