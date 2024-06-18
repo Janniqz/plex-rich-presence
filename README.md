@@ -34,13 +34,15 @@ dotnet run
 
 ## Libraries used
 
-- AvaloniaUI
-- .NET MVVM Toolkit
+- [AvaloniaUI](https://avaloniaui.net/)
+- [.NET MVVM Toolkit](https://github.com/CommunityToolkit/)
+- [Moq](https://github.com/devlooped/moq)
+- [PlexApi](https://github.com/jensenkd/plex-api)
+- [Discord RPC .NET](https://github.com/Lachee/discord-rpc-csharp)
+- [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
+- [MetaBrainz.MusicBrainz](https://github.com/Zastai/MetaBrainz.MusicBrainz)
+- [MetaBrainz.MusicBrainz.CoverArt](https://github.com/Zastai/MetaBrainz.MusicBrainz.CoverArt)
 - Microsoft DI
-- Moq
-- PlexApi
-- Discord RPC .NET
-- FluentAssertions
 
 ## Special Thanks
 
