@@ -9,11 +9,11 @@ public class VideoThumbnailService : ThumbnailServiceBase
 
     protected override Task<string?> GetThumbnailURL_Internal(PlexSession session)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(null as string);
     }
 
     protected override bool NeedsUpdate(PlexSession session)
     {
-        throw new NotImplementedException();
+        return false;
     }
 }
