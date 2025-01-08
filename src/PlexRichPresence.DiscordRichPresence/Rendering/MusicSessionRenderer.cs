@@ -19,29 +19,23 @@ public class MusicSessionRenderer : GenericSessionRenderer
         {
             Details = $"♫ {session.MediaTitle}",
             State = $"{playerState} {session.MediaGrandParentTitle}",
-            Timestamps = new Timestamps
-            {
-                End = endTimeStamp
-            },
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
                 SmallImageKey = thumbnail != null ? "icon-round" : null,
-            }
+            },
+            Type = ActivityType.Listening,
         };
 
-        if (!session.MediaParentGUID.StartsWith("plex://")) 
-            return richPresence;
-        
-        var albumGUID = session.MediaParentGUID.Split('/').LastOrDefault();
-        richPresence.Buttons =
-        [
-            new Button
+        // TODO This is duplicated in all Renderers, consider moving it to a base class
+        if (session.PlayerState == PlexPlayerState.Playing)
+        {
+            richPresence.WithTimestamps(new Timestamps
             {
-                Label = "Album Info",
-                Url = $"https://listen.plex.tv/album/{albumGUID}"
-            }
-        ];
+                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
+                End = endTimeStamp
+            });
+        }
 
         return richPresence;
     }

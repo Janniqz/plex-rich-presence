@@ -14,7 +14,7 @@ public class SeriesSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-        return new RichPresence
+        var richPresence = new RichPresence
         {
             Details = $"⏏ {session.MediaTitle}",
             State = $"{playerState} {session.MediaGrandParentTitle}",
@@ -26,7 +26,19 @@ public class SeriesSessionRenderer : GenericSessionRenderer
             {
                 LargeImageKey = thumbnail ?? "icon",
                 SmallImageKey = thumbnail != null ? "icon-round" : null
-            }
+            },
+            Type = ActivityType.Watching
         };
+            
+        if (session.PlayerState == PlexPlayerState.Playing)
+        {
+            richPresence.WithTimestamps(new Timestamps
+            {
+                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
+                End = endTimeStamp
+            });
+        }
+
+        return richPresence;
     }
 }

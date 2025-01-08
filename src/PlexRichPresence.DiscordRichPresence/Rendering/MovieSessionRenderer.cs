@@ -14,19 +14,27 @@ public class MovieSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-        return new RichPresence
+        var richPresence = new RichPresence
         {
             Details = session.MediaTitle,
             State = playerState.Length < 2 ? playerState + '\x2800' : playerState,
-            Timestamps = new Timestamps
-            {
-                End = endTimeStamp
-            },
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
                 SmallImageKey = thumbnail != null ? "icon-round" : null,
-            }
+            },
+            Type = ActivityType.Watching
         };
+        
+        if (session.PlayerState == PlexPlayerState.Playing)
+        {
+            richPresence.WithTimestamps(new Timestamps
+            {
+                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
+                End = endTimeStamp
+            });
+        }
+
+        return richPresence;
     }
 }

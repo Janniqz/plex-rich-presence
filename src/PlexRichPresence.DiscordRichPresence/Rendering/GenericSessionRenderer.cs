@@ -24,9 +24,9 @@ public class GenericSessionRenderer : IPlexSessionRenderer
     {
         return session.PlayerState switch
         {
-            PlexPlayerState.Buffering => ("⟲", DateTime.Now.ToUniversalTime()),
-            PlexPlayerState.Paused => ("⏸", DateTime.Now.ToUniversalTime()),
-            PlexPlayerState.Playing => ("▶", DateTime.Now.AddSeconds(ComputeSessionRemainingTime(session)).ToUniversalTime()),
+            PlexPlayerState.Buffering => ("⟲", DateTime.UtcNow.AddSeconds(ComputeSessionRemainingTime(session))),
+            PlexPlayerState.Paused => ("⏸", DateTime.UtcNow.AddSeconds(ComputeSessionRemainingTime(session))),
+            PlexPlayerState.Playing => ("▶", DateTime.UtcNow.AddSeconds(ComputeSessionRemainingTime(session))),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
