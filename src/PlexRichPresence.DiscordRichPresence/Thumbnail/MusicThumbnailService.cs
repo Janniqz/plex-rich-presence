@@ -4,7 +4,10 @@ using System.Text;
 using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz;
 using MetaBrainz.MusicBrainz.CoverArt;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using Plex.ServerApi.PlexModels.Audio;
 using PlexRichPresence.Core;
+using PlexRichPresence.Tools.Helpers;
 
 namespace PlexRichPresence.DiscordRichPresence.Thumbnail;
 
@@ -30,14 +33,12 @@ public class MusicThumbnailService : ThumbnailServiceBase
         _currentAlbum = session.MediaParentTitle;
         _currentArtist = session.MediaGrandParentTitle;
         
-        var query = $"release:{EscapeLuceneQuery(_currentAlbum)} AND artist:{EscapeLuceneQuery(_currentArtist)}";
+        var query = $"release:{EscapeLuceneQuery(_currentAlbum)} AND (artist:{EscapeLuceneQuery(_currentArtist)} OR label:{EscapeLuceneQuery(_currentArtist)})";
         var releaseGroups = _musicBrainzClient.FindReleaseGroupsAsync(query).Result;
         foreach (var releaseGroup in releaseGroups.Results)
         {
-            if (releaseGroup.Item.Releases == null)
+            if (!VerifyReleaseGroup(releaseGroup.Item, _currentAlbum, _currentArtist))
                 continue;
-            
-            // TODO Add minimum Release Group Score
             
             foreach (var release in releaseGroup.Item.Releases)
             {
@@ -76,5 +77,27 @@ public class MusicThumbnailService : ThumbnailServiceBase
             sb.Append(c);
         }
         return sb.ToString();
+    }
+
+    private bool VerifyReleaseGroup(IReleaseGroup release, string targetAlbum, string targetArtist, double similarityThreshold = 0.8)
+    {
+        // If there are no Releases, ignore the Group
+        if (release.Releases == null)
+            return false;
+        
+        // If the Album doesn't match, ignore
+        if (release.Title == null || targetAlbum.CompareStrings(release.Title) < similarityThreshold)
+            return false;
+
+        // If the Artist / Label doesn't match, ignore
+        return release.ArtistCredit?.Any(credit =>
+        {
+            var artist = credit.Artist;
+            return (credit.Name != null && targetArtist.CompareStrings(credit.Name) >= similarityThreshold) ||
+                   artist != null && (
+                       (artist.Name != null && targetArtist.CompareStrings(artist.Name) >= similarityThreshold) ||
+                       (artist.SortName != null && targetArtist.CompareStrings(artist.SortName) >= similarityThreshold) ||
+                       (artist.Disambiguation != null && targetArtist.CompareStrings(artist.Disambiguation) >= similarityThreshold));
+        }) ?? false;
     }
 }
