@@ -38,7 +38,10 @@ public class DiscordService : IDiscordService
         var richPresence = _plexSessionRenderingService.RenderSession(session);
         
         _discordRpcClient ??= CreateRpcClient();
-        _discordRpcClient.SetPresence(richPresence);
+        if (richPresence != null)
+            _discordRpcClient.SetPresence(richPresence);
+        else
+            _discordRpcClient.ClearPresence();
     }
 
     public void StopRichPresence()

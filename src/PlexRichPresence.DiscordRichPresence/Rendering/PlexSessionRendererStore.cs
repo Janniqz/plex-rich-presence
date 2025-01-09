@@ -17,7 +17,6 @@ public class PlexSessionRendererStore
         _renderers[PlexMediaType.Movie] = new MovieSessionRenderer(videoThumbnailService);
         _renderers[PlexMediaType.Episode] = new SeriesSessionRenderer(videoThumbnailService);
         _renderers[PlexMediaType.Track] = new MusicSessionRenderer(musicThumbnailService);
-        _renderers[PlexMediaType.Idle] = new IdleSessionRenderer();
 
         _renderers[PlexMediaType.Unknown] = new GenericSessionRenderer();
     }

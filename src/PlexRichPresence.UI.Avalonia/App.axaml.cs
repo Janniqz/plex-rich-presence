@@ -181,9 +181,6 @@ public class App : Application
             var logger = _serviceProvider.GetService<ILogger<App>>()
                          ?? throw new InvalidOperationException(
                              "Can't get logger from DI");
-            var enabledIdleStatusStringValue = viewModel.EnableIdleStatus.ToString();
-            storageService.PutAsync("enableIdleStatus", enabledIdleStatusStringValue);
-            logger.Log(LogLevel.Information, "Saving setting enableIdleStatus to storage with value : {Value}", enabledIdleStatusStringValue);
         }
 
         BlobCache.Shutdown().Wait();

@@ -31,7 +31,6 @@ public class StorageServiceTests
         Assert.Equal("test", await BlobCache.Secure.GetObject<string>("serverIp"));
         Assert.Equal("test", await BlobCache.Secure.GetObject<string>("serverPort"));
         Assert.Equal("True", await BlobCache.Secure.GetObject<string>("isServerOwned"));
-        Assert.Equal("True", await BlobCache.Secure.GetObject<string>("enableIdleStatus"));
         Assert.False(File.Exists("storedData.json"));
     }
     

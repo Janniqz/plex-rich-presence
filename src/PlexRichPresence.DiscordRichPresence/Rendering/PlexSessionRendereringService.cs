@@ -16,8 +16,11 @@ public class PlexSessionRenderingService
         _logger = logger;
     }
 
-    public RichPresence RenderSession(PlexSession session)
+    public RichPresence? RenderSession(PlexSession session)
     {
+        if (session.MediaType == PlexMediaType.Idle)
+            return null;
+        
         var renderedSession = _rendererStore
             .GetSessionRenderer(session)
             .RenderSession(session);

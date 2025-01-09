@@ -22,7 +22,6 @@ public partial class PlexActivityPageViewModel : ObservableObject
     [ObservableProperty] private int _plexServerPort;
     [ObservableProperty] private bool _isPlexServerOwned;
     [ObservableProperty] private bool _isServerUnreachable;
-    [ObservableProperty] private bool _enableIdleStatus = true;
     [ObservableProperty] private string _thumbnailUrl = string.Empty;
 
     public PlexActivityPageViewModel(IPlexActivityService plexActivityService, IStorageService storageService, INavigationService navigationService, IDiscordService discordService, ILogger<PlexActivityPageViewModel> logger)
@@ -56,10 +55,6 @@ public partial class PlexActivityPageViewModel : ObservableObject
         _userToken = await _storageService.GetAsync("plex_token");
         _userName = await _storageService.GetAsync("plexUserName");
         IsPlexServerOwned = bool.Parse(await _storageService.GetAsync("isServerOwned"));
-        if (await _storageService.ContainsKeyAsync("enableIdleStatus"))
-        {
-            EnableIdleStatus = bool.Parse(await _storageService.GetAsync("enableIdleStatus"));
-        }
     }
 
     [RelayCommand]
@@ -71,11 +66,7 @@ public partial class PlexActivityPageViewModel : ObservableObject
             {
                 CurrentActivity = session.MediaTitle;
                 ThumbnailUrl = session.LocalThumbnail;
-
-                if (CurrentActivity is "Idle" && !EnableIdleStatus)
-                    _discordService.StopRichPresence();
-                else
-                    _discordService.SetDiscordPresenceToPlexSession(session);
+                _discordService.SetDiscordPresenceToPlexSession(session);
             }
         }
         catch (ApplicationException e)

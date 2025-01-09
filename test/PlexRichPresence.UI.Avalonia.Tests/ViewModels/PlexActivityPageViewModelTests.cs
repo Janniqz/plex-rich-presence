@@ -155,7 +155,6 @@ public class PlexActivityPageViewModelTests
         });
         var navigationService = new FakeNavigationService();
         var viewModel = new PlexActivityPageViewModel(plexActivityService, storageService, navigationService, discordServiceMock.Object, new Mock<ILogger<PlexActivityPageViewModel>>().Object);
-        viewModel.EnableIdleStatus = false;
 
         await viewModel.InitStrategyCommand.ExecuteAsync(null);
 
@@ -172,40 +171,6 @@ public class PlexActivityPageViewModelTests
         plexActivityService.CurrentServerPort.ToString().Should().Be(fakeServerPort);
         plexActivityService.CurrentUsername.Should().Be(fakePlexUserName);
         plexActivityService.CurrentUserToken.Should().Be(fakePlexToken);
-    }
-
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task InitStrategy_IdleEnabledRetrievedFromStorage(bool idleEnabled)
-    {
-        // Given
-        const string fakePlexToken = "fake plex token";
-        const string fakeServerIp = "111.111.111.111";
-        const string fakeServerPort = "32400";
-        const string fakePlexUserName = "fake plex user name";
-        var storageService = new FakeStorageService(new Dictionary<string, string>
-        {
-            ["serverIp"] = fakeServerIp,
-            ["serverPort"] = fakeServerPort,
-            ["isServerOwned"] = bool.TrueString,
-            ["plex_token"] = fakePlexToken,
-            ["plexUserName"] = fakePlexUserName,
-            ["enableIdleStatus"] = idleEnabled.ToString(),
-        });
-        var viewModel = new PlexActivityPageViewModel(
-            new FakePlexActivityService(),
-            storageService,
-            new Mock<INavigationService>().Object,
-            new Mock<IDiscordService>().Object,
-            new Mock<ILogger<PlexActivityPageViewModel>>().Object
-        );
-
-        // When
-        await viewModel.InitStrategyCommand.ExecuteAsync(null);
-
-        // Then
-        viewModel.EnableIdleStatus.Should().Be(idleEnabled);
     }
 
     [Fact]
