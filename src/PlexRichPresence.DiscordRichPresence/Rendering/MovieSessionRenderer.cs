@@ -1,6 +1,7 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Interfaces;
+using PlexRichPresence.Tools.Helpers;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 
@@ -14,10 +15,12 @@ public class MovieSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
+        var stateString = playerState.Length < 2 ? playerState + '\x2800' : playerState;
+        
         var richPresence = new RichPresence
         {
-            Details = session.MediaTitle,
-            State = playerState.Length < 2 ? playerState + '\x2800' : playerState,
+            Details = StringHelper.LimitStringByteSize(session.MediaTitle, 128),
+            State = StringHelper.LimitStringByteSize(stateString, 128),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",

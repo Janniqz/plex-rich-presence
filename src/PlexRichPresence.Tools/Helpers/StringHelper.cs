@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PlexRichPresence.Tools.Helpers;
 
@@ -64,5 +65,17 @@ public static class StringHelper
     public static string SubstituteSimilarCharacters(string str)
     {
         return str.Replace('-', '‐');
+    }
+    
+    public static string LimitStringByteSize(string str, int maxBytes, string shortenIndicator="...")
+    {
+        if (Encoding.UTF8.GetByteCount(str) > maxBytes)
+        {
+            while (Encoding.UTF8.GetByteCount(str + shortenIndicator) > maxBytes)
+                str = str[..^1];
+            str += shortenIndicator;
+        }
+
+        return str;
     }
 }

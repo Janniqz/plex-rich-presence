@@ -1,6 +1,8 @@
+using System.Text;
 using DiscordRPC;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Interfaces;
+using PlexRichPresence.Tools.Helpers;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 
@@ -14,11 +16,11 @@ public class MusicSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-
+        
         var richPresence = new RichPresence
         {
-            Details = $"♫ {session.MediaTitle}",
-            State = $"{playerState} {session.MediaGrandParentTitle}",
+            Details = StringHelper.LimitStringByteSize($"♫ {session.MediaTitle}", 128),
+            State = StringHelper.LimitStringByteSize($"{playerState} {session.MediaGrandParentTitle}", 128),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
