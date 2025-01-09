@@ -65,7 +65,7 @@ public partial class PlexActivityPageViewModel : ObservableObject
             await foreach (var session in _plexActivityService.GetSessions(IsPlexServerOwned, _userName, PlexServerIp, PlexServerPort, _userToken))
             {
                 CurrentActivity = session.MediaTitle;
-                ThumbnailUrl = session.LocalThumbnail;
+                ThumbnailUrl = session.LocalThumbnail ?? string.Empty;
                 _discordService.SetDiscordPresenceToPlexSession(session);
             }
         }

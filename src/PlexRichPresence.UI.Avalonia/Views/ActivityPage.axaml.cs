@@ -29,7 +29,7 @@ public partial class ActivityPage : UserControl
                 {
                     using HttpClient client = new();
                     var thumbnailUrl = plexActivityViewModel.ThumbnailUrl;
-                    var imageControl = this.FindControl<Image>("thumbnail");
+                    var imageControl = this.FindControl<Image>("Thumbnail");
                     if (thumbnailUrl != string.Empty)
                     {
                         var response = await client.GetAsync(new Uri(thumbnailUrl));
