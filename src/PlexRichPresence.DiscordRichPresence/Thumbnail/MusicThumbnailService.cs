@@ -34,32 +34,43 @@ public class MusicThumbnailService : ThumbnailServiceBase
         _currentArtist = session.MediaGrandParentTitle;
         
         var query = $"release:{EscapeLuceneQuery(_currentAlbum)} AND (artist:{EscapeLuceneQuery(_currentArtist)} OR label:{EscapeLuceneQuery(_currentArtist)})";
-        var releaseGroups = _musicBrainzClient.FindReleaseGroupsAsync(query).Result;
-        foreach (var releaseGroup in releaseGroups.Results)
+
+        try
         {
-            if (!VerifyReleaseGroup(releaseGroup.Item, _currentAlbum, _currentArtist))
-                continue;
-            
-            foreach (var release in releaseGroup.Item.Releases)
+            var releaseGroups = _musicBrainzClient.FindReleaseGroupsAsync(query).Result;
+            foreach (var releaseGroup in releaseGroups.Results)
             {
-                try
+                if (!VerifyReleaseGroup(releaseGroup.Item, _currentAlbum, _currentArtist))
+                    continue;
+            
+                foreach (var release in releaseGroup.Item.Releases)
                 {
-                    var covers = _coverArtClient.FetchReleaseAsync(release.Id).Result;
-                    var image = covers.Images[0];
-                    return Task.FromResult(image.Thumbnails.Small?.AbsoluteUri);
-                }
-                catch (Exception e)
-                {
-                    if (e is AggregateException { InnerExceptions.Count: 1 } ae)
-                        e = ae.InnerExceptions[0];
-                    if (e is HttpError { Status: HttpStatusCode.NotFound })
-                        continue;
+                    try
+                    {
+                        var covers = _coverArtClient.FetchReleaseAsync(release.Id).Result;
+                        var image = covers.Images[0];
+                        return Task.FromResult(image.Thumbnails.Small?.AbsoluteUri);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is AggregateException { InnerExceptions.Count: 1 } ae)
+                            e = ae.InnerExceptions[0];
+                        if (e is HttpError { Status: HttpStatusCode.NotFound })
+                            continue;
                     
-                    // TODO Add Logging
+                        // TODO Add Logging
                     
-                    throw;
+                        throw;
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            if (e is AggregateException { InnerExceptions.Count: 1 } ae)
+                e = ae.InnerExceptions[0];
+            if (e is not HttpError)
+                throw;
         }
         
         return Task.FromResult((string?) null);
