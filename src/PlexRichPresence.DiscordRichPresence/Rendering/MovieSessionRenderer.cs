@@ -15,12 +15,11 @@ public class MovieSessionRenderer : GenericSessionRenderer
     {
         var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-        var stateString = playerState.Length < 2 ? playerState + '\x2800' : playerState;
         
         var richPresence = new RichPresence
         {
             Details = StringHelper.LimitStringByteSize(session.MediaTitle, 128),
-            State = StringHelper.LimitStringByteSize(stateString, 128),
+            State = StringHelper.LimitStringByteSize($"{playerState} {session.PlayerState}", 128),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
