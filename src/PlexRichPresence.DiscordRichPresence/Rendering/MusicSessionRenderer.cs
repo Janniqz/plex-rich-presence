@@ -14,13 +14,11 @@ public class MusicSessionRenderer : GenericSessionRenderer
 
     public override RichPresence RenderSession(PlexSession session)
     {
-        var (playerState, endTimeStamp) = RenderPlayerState(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
-        
         var richPresence = new RichPresence
         {
-            Details = StringHelper.LimitStringByteSize($"♫ {session.MediaTitle}", 128),
-            State = StringHelper.LimitStringByteSize($"{playerState} {session.MediaGrandParentTitle}", 128),
+            Details = StringHelper.LimitStringByteSize(session.MediaTitle, 128),
+            State = StringHelper.LimitStringByteSize(session.MediaGrandParentTitle, 128),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",
