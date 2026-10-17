@@ -20,11 +20,12 @@ public class PlexSessionRenderingService
     {
         if (session.MediaType == PlexMediaType.Idle)
             return null;
-        
-        var renderedSession = _rendererStore
-            .GetSessionRenderer(session)
-            .RenderSession(session);
 
+        var renderer = _rendererStore.GetSessionRenderer(session);
+        if (!renderer.IsRenderingAllowed(session))
+            return null;
+        
+        var renderedSession = renderer.RenderSession(session);
         _logger.LogInformation("Rendered Plex Session : {Session}", JsonConvert.SerializeObject(renderedSession));
 
         return renderedSession;

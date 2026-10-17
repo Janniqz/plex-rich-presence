@@ -9,7 +9,9 @@ namespace PlexRichPresence.DiscordRichPresence.Rendering;
 public class MusicSessionRenderer : GenericSessionRenderer
 {
     private readonly IThumbnailService _thumbnailService;
-    
+
+    public override bool IsRenderingAllowed(PlexSession session) => session.PlayerState == PlexPlayerState.Playing;
+
     public MusicSessionRenderer(IThumbnailService thumbnailService) => _thumbnailService = thumbnailService;
 
     protected override RichPresence RenderSessionInternal(PlexSession session)
