@@ -26,7 +26,8 @@ public class MovieSessionRenderer : GenericSessionRenderer
                 LargeImageKey = thumbnail ?? "icon",
                 SmallImageKey = thumbnail != null ? "icon-round" : null,
             },
-            Type = ActivityType.Watching
+            Type = ActivityType.Watching,
+            StatusDisplay = StatusDisplayType.Details
         };
         
         if (session.PlayerState == PlexPlayerState.Playing)

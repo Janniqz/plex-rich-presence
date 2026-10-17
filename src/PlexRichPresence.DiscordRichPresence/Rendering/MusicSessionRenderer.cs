@@ -26,7 +26,8 @@ public class MusicSessionRenderer : GenericSessionRenderer
                 LargeImageKey = thumbnail ?? "icon",
                 SmallImageKey = thumbnail != null ? "icon-round" : null,
             },
-            Type = ActivityType.Listening,
+            Type = ActivityType.Listening, 
+            StatusDisplay = StatusDisplayType.State
         };
 
         // TODO This is duplicated in all Renderers, consider moving it to a base class
