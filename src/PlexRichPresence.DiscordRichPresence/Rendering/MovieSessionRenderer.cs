@@ -11,9 +11,9 @@ public class MovieSessionRenderer : GenericSessionRenderer
     
     public MovieSessionRenderer(IThumbnailService thumbnailService) => _thumbnailService = thumbnailService;
 
-    public override RichPresence RenderSession(PlexSession session)
+    protected override RichPresence RenderSessionInternal(PlexSession session)
     {
-        var (playerState, endTimeStamp) = RenderPlayerState(session);
+        var playerState = GetPlayerStateIcon(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
         
         var richPresence = new RichPresence
@@ -28,15 +28,6 @@ public class MovieSessionRenderer : GenericSessionRenderer
             Type = ActivityType.Watching,
             StatusDisplay = StatusDisplayType.Details
         };
-        
-        if (session.PlayerState == PlexPlayerState.Playing)
-        {
-            richPresence.WithTimestamps(new Timestamps
-            {
-                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
-                End = endTimeStamp
-            });
-        }
 
         return richPresence;
     }

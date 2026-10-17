@@ -11,10 +11,11 @@ public class SeriesSessionRenderer : GenericSessionRenderer
     
     public SeriesSessionRenderer(IThumbnailService thumbnailService) => _thumbnailService = thumbnailService;
 
-    public override RichPresence RenderSession(PlexSession session)
+    protected override RichPresence RenderSessionInternal(PlexSession session)
     {
-        var (playerState, endTimeStamp) = RenderPlayerState(session);
+        var playerState = GetPlayerStateIcon(session);
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
+        
         var richPresence = new RichPresence
         {
             Details = StringHelper.LimitStringByteSize($"{playerState} {session.MediaTitle} (S{session.MediaSeasonNo}E{session.MediaEpisodeNo})", 128),
@@ -27,15 +28,6 @@ public class SeriesSessionRenderer : GenericSessionRenderer
             Type = ActivityType.Watching,
             StatusDisplay = StatusDisplayType.State
         };
-            
-        if (session.PlayerState == PlexPlayerState.Playing)
-        {
-            richPresence.WithTimestamps(new Timestamps
-            {
-                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
-                End = endTimeStamp
-            });
-        }
 
         return richPresence;
     }

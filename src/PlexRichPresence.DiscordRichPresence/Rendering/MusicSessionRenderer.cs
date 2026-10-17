@@ -12,7 +12,7 @@ public class MusicSessionRenderer : GenericSessionRenderer
     
     public MusicSessionRenderer(IThumbnailService thumbnailService) => _thumbnailService = thumbnailService;
 
-    public override RichPresence RenderSession(PlexSession session)
+    protected override RichPresence RenderSessionInternal(PlexSession session)
     {
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
         var richPresence = new RichPresence
@@ -27,16 +27,6 @@ public class MusicSessionRenderer : GenericSessionRenderer
             Type = ActivityType.Listening, 
             StatusDisplay = StatusDisplayType.State
         };
-
-        // TODO This is duplicated in all Renderers, consider moving it to a base class
-        if (session.PlayerState == PlexPlayerState.Playing)
-        {
-            richPresence.WithTimestamps(new Timestamps
-            {
-                Start = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(session.ViewOffset / 1000d)),
-                End = endTimeStamp
-            });
-        }
 
         return richPresence;
     }
