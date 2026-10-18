@@ -4,7 +4,6 @@ using Moq;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Rendering;
 using PlexRichPresence.Services;
-using PlexRichPresence.UI.Avalonia.Services;
 
 namespace PlexRichPresence.DiscordRichPresence.Tests;
 
@@ -19,14 +18,14 @@ public class PlexSessionRenderingServiceTests
                 {
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Buffering
                 },
-                true, "⟲\x2800", "Test Movie"
+                true, "⟲ Buffering", "Test Movie"
             },
             {
                 new PlexSession
                 {
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Paused
                 },
-                true, "⏸\x2800", "Test Movie"
+                true, "⏸ Paused", "Test Movie"
             },
             {
                 new PlexSession
@@ -34,7 +33,7 @@ public class PlexSessionRenderingServiceTests
                     MediaTitle = "Test Movie", MediaType = PlexMediaType.Movie, PlayerState = PlexPlayerState.Playing,
                     Duration = 20_000, ViewOffset = 10_000
                 },
-                true, "▶\x2800", "Test Movie"
+                true, "▶ Playing", "Test Movie"
             },
             {
                 new PlexSession
@@ -82,7 +81,7 @@ public class PlexSessionRenderingServiceTests
     public void RenderPlayerState(PlexSession session, bool presenceExists, string? expectedState, string? expectedDetail)
     {
         // Given
-        var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererStore(new Mock<WebClientService>().Object), new Mock<ILogger<PlexSessionRenderingService>>().Object);
+        var plexSessionRenderingService = new PlexSessionRenderingService(new PlexSessionRendererStore(new Mock<IWebClientService>().Object), new Mock<ILogger<PlexSessionRenderingService>>().Object);
 
         // When
         var presence = plexSessionRenderingService.RenderSession(session);
