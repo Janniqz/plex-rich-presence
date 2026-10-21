@@ -87,12 +87,16 @@ public partial class PlexActivityPageViewModel : ObservableObject
             _logger.LogError(e, "Could not connect to server");
             IsServerUnreachable = true;
         }
+        
+        if (IsServerUnreachable)
+            _discordService.StopRichPresence();
     }
 
     [RelayCommand]
     private async Task ChangeServer()
     {
         _plexActivityService.Disconnect();
+        _discordService.StopRichPresence();
         await _navigationService.NavigateToAsync("servers");
     }
 }
