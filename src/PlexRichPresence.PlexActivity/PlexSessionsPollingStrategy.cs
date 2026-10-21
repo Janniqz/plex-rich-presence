@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Plex.ServerApi.Clients.Interfaces;
+using Plex.ServerApi.PlexModels.Server.Sessions;
 using PlexRichPresence.Core;
 
 namespace PlexRichPresence.PlexActivity;
@@ -25,7 +26,18 @@ public class PlexSessionsPollingStrategy : IPlexSessionStrategy
         while (!_isDisconnected)
         {
             var plexServerHost = new Uri($"http://{serverIp}:{serverPort}").ToString();
-            var sessions = await _plexServerClient.GetSessionsAsync(userToken, plexServerHost);
+            SessionContainer sessions;
+            
+            try
+            {
+                sessions = await _plexServerClient.GetSessionsAsync(userToken, plexServerHost);
+            }
+            catch (HttpRequestException)
+            {
+                _logger.LogWarning($"{nameof(HttpRequestException)} encountered whilst trying to fetch session. Waiting 10s before retrying...");
+                await Task.Delay(TimeSpan.FromSeconds(10));
+                continue;
+            }
             
             await Task.Delay(TimeSpan.FromSeconds(2));
 
