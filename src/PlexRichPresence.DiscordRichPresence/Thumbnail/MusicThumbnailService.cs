@@ -52,6 +52,8 @@ public class MusicThumbnailService : ThumbnailServiceBase
                 {
                     if (e is AggregateException { InnerExceptions.Count: 1 } ae)
                         e = ae.InnerExceptions[0];
+                    if (e is HttpRequestException)
+                        break;
                     if (e is HttpError { Status: HttpStatusCode.NotFound })
                         continue;
                     
@@ -65,11 +67,11 @@ public class MusicThumbnailService : ThumbnailServiceBase
         {
             if (e is AggregateException { InnerExceptions.Count: 1 } ae)
                 e = ae.InnerExceptions[0];
-            if (e is not HttpError)
+            if (e is not HttpError and not HttpRequestException)
                 throw;
         }
         
-        return Task.FromResult((string?) null);
+        return Task.FromResult<string?>(null);
     }
 
     protected override bool NeedsUpdate(PlexSession session) => session.MediaParentTitle != _currentAlbum || session.MediaGrandParentTitle != _currentArtist;
