@@ -18,7 +18,7 @@ public class MovieSessionRenderer : GenericSessionRenderer
         
         var richPresence = new RichPresence
         {
-            Details = StringHelper.LimitStringByteSize(session.MediaTitle, 128),
+            Details = StringHelper.LimitStringByteSize($"{session.MediaTitle} ({session.MediaRelease})", 128),
             State = StringHelper.LimitStringByteSize($"{playerState} {session.PlayerState}", 128),
             Assets = new Assets
             {
