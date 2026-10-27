@@ -18,8 +18,8 @@ public class SeriesSessionRenderer : GenericSessionRenderer
         
         var richPresence = new RichPresence
         {
-            Details = StringHelper.LimitStringByteSize($"{playerState} {session.MediaTitle} (S{session.MediaSeasonNo}E{session.MediaEpisodeNo})", 128),
-            State = StringHelper.LimitStringByteSize(session.MediaGrandParentTitle, 128),
+            Details = FormatRichPresenceString($"{playerState} {session.MediaTitle} (S{session.MediaSeasonNo}E{session.MediaEpisodeNo})"),
+            State = FormatRichPresenceString(session.MediaGrandParentTitle),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",

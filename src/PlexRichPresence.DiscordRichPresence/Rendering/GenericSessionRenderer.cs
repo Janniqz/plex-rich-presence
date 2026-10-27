@@ -1,6 +1,7 @@
 using DiscordRPC;
 using PlexRichPresence.Core;
 using PlexRichPresence.DiscordRichPresence.Interfaces;
+using PlexRichPresence.Tools.Helpers;
 
 namespace PlexRichPresence.DiscordRichPresence.Rendering;
 
@@ -40,6 +41,13 @@ public class GenericSessionRenderer : IPlexSessionRenderer
         };
     }
 
+    protected string FormatRichPresenceString(string str)
+    {
+        str = StringHelper.ExpandStringLength(str, 2);
+        str = StringHelper.LimitStringByteSize(str, 128);
+        return str;
+    }
+    
     protected char GetPlayerStateIcon(PlexSession session)
     {
         return session.PlayerState switch

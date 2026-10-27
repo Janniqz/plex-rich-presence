@@ -19,8 +19,8 @@ public class MusicSessionRenderer : GenericSessionRenderer
         var thumbnail = _thumbnailService.GetThumbnailURL(session);
         var richPresence = new RichPresence
         {
-            Details = StringHelper.LimitStringByteSize(session.MediaTitle, 128),
-            State = StringHelper.LimitStringByteSize(session.MediaGrandParentTitle, 128),
+            Details = FormatRichPresenceString(session.MediaTitle),
+            State = FormatRichPresenceString(session.MediaGrandParentTitle),
             Assets = new Assets
             {
                 LargeImageKey = thumbnail ?? "icon",

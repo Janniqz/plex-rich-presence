@@ -78,4 +78,12 @@ public static class StringHelper
 
         return str;
     }
+
+    public static string ExpandStringLength(string str, int minLength, char extensionCharacter = '\x2800')
+    {
+        var dif = minLength - str.Length;
+        if (dif > 0)
+            str += new string(extensionCharacter, dif);
+        return str;
+    }
 }
